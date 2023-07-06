@@ -1,11 +1,11 @@
 import random
 
 MAX_LINES = 3 #z duzych liter gdy jest to stała wartosc i się nie zmieni
-MAX_BET = 100
-MIN_BET = 10
+MAX_BET = 100 #maksymalna stawka
+MIN_BET = 10 #minimalna
 
-ROWS = 3 
-COLS = 3
+ROWS = 3  #ilosć wierszy w "maszynie"
+COLS = 3 #ilosć kolumn
 
 
 symbol_count = {
@@ -61,7 +61,7 @@ def print_slot_machine(columns):
                 print(column[row], end = '')
         print()
 
-def deposit():
+def deposit(): #definujemy ilosć pieniedzy jaką ma gracz na poczatku rozgrywki
     while True:
         amount = input('What would you like to deposit? $')
         if amount.isdigit():
@@ -75,7 +75,7 @@ def deposit():
     return amount
 
 
-def get_number_of_lines():
+def get_number_of_lines(): #definujemy pobieranie numeru lini od uzytkownika
     while True:
         lines = input('Enter the number of lines to bet on (1-' + str(MAX_LINES)+ ')? ')
         if lines.isdigit():
