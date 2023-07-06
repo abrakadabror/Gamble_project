@@ -14,6 +14,25 @@ symbol_count = {
     'C': 6,
     'D': 8
 }
+symbol_value = {
+    'A': 5,
+    'B': 4,
+    'C': 3,
+    'D': 2
+}
+def check_winnings(columns, lines, bet, values):
+    winnings = 0
+    winnings_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_to_check = column[line]
+            if symbol != symbol_to_check:
+                break
+        else:
+            winnings += values[symbol] * bet
+            winnings_lines.append(line + 1)
+    return winnings , winnings_lines #zwracamy dwie wartości wygrana oraz info na których liniach wygrali
 
 def get_slot_machine_spin(rows, cols, symbols):
     all_symbols = []
@@ -39,7 +58,7 @@ def print_slot_machine(columns):
             if i != len(columns) - 1:
                 print(column[row],  end= ' | ')
             else: 
-                print(column[row] end = '')
+                print(column[row], end = '')
         print()
 
 def deposit():
@@ -80,9 +99,7 @@ def get_bet():
         else: 
             print('Please enter a number.')
     return amount
-
-def main():
-    balance = deposit()
+def spin(balance): # definujemy jedną rozgrywkę
     lines = get_number_of_lines()
     while True:
         bet = get_bet()
@@ -94,5 +111,17 @@ def main():
     print(f'You are betting ${bet}on {lines} lines. Toatl bet is equal to: ${total_bet}')
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
-
+    winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
+    print(f'You won${winnings}.')
+    print(f'You won on lines: ', *winning_lines) #* operator rozpakowania? przekae kadą linie ze zwycieskiej lini do print 
+    return winnings - total_bet
+def main():
+    balance = deposit()
+    while True:
+        print(f'Current balance is: ${balance}')
+        answer = input('Press enter to play (q to quit).')
+        if answer == 'q':
+            break
+        balance += spin(balance)
+    print('You left with${balance}')
 main()
